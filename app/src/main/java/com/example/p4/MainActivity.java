@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
 
         toggleButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
+            //Esto sirve para que guarde las variables en el archivo TOGGLEBUTTON
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 prefs.edit().putBoolean("TOGGLEBUTTON", b).apply();
             }
