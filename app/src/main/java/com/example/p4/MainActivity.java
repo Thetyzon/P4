@@ -4,7 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.CheckBox;
+import android.widget.CheckedTextView;
 import android.widget.CompoundButton;
+import android.widget.RadioGroup;
 import android.widget.Switch;
 import android.widget.ToggleButton;
 
@@ -13,6 +17,10 @@ public class MainActivity extends AppCompatActivity {
     SharedPreferences prefs;
     Switch aSwitch;
     ToggleButton toggleButton;
+    CheckBox checkBox;
+    CheckedTextView checkedTextView;
+    RadioGroup radioGroup;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,8 +60,41 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        // ----- CHECKBOX
+        checkBox =findViewById(R.id.checkBox);
+        checkBox.setChecked(prefs.getBoolean("CHECKBOX", false));
+
+        checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                prefs.edit().putBoolean("CHECKBOX", b).apply();
+            }
+        });
 
 
+        // ----- CHECKEDTEXTVIEW
+        checkedTextView =findViewById(R.id.checkedTextView);
+        checkedTextView.setChecked(prefs.getBoolean("CHECKEDTEXTVIEW",false));
+
+        checkedTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                checkedTextView.toggle();
+                prefs.edit().putBoolean("CHECKEDTEXTVIEW", checkedTextView.isChecked()).apply();
+            }
+        });
+
+        // ----- RADIO GROUP
+        radioGroup =findViewById(R.id.radioGroup);
+        radioGroup.check(prefs.getInt("RADIOGROUP", radioGroup.getCheckedRadioButtonId()));
+
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            // El int i es donde guardamos la casilla que se ha seleccionado en el radioGroup y la guardaremos en el archivo RADIOGROUP
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                prefs.edit().putInt("RADIOGROUP", i).apply();
+            }
+        });
 
 
     }
